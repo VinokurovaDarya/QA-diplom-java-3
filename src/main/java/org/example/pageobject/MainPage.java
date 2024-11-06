@@ -18,15 +18,12 @@ public class MainPage {
     private final By authorizationButton = By.xpath(".//*[text() = 'Войти в аккаунт']");
     //  локатор для кнопки личный кабинет
     private final By userAccountButton = By.xpath("//a[@class='AppHeader_header__link__3D_hX' and @href='/account']");
-    //  локаторы для соуса
-    private final By ingredientSauceButton = By.xpath("//span[text()='Соусы']/..");
-    private final By checkSauceDisplayed = By.xpath(".//section[1]/div[2]/h2[2]");
-    //  локаторы для булки
-    private final By ingredientBunsButton = By.xpath("//span[text()='Булки']/..");
-    private final By checkBunsDisplayed = By.xpath(".//section[1]/div[2]/h2[1]");
-    // локаторы для начилки
-    private final By ingredientFillingButton = By.xpath("//span[text()='Начинки']/..");
-    private final By checkFillingDisplayed = By.xpath(".//section[1]/div[2]/h2[3]");
+    //  локаторы для булок
+    private final By breadSection = By.cssSelector(".tab_tab__1SPyG:nth-child(1)");
+    //локаторы для соусов
+    private final By saucesSection =By.cssSelector(".tab_tab__1SPyG:nth-child(2)");
+    //локаторы для начинок
+    private final By  fillingSection = By.cssSelector(".tab_tab__1SPyG:nth-child(3)");
     // локаторы для кнопки "Оформить заказ"
     private final By orderButton = By.className("button_button__33qZ0");
 
@@ -59,43 +56,53 @@ public class MainPage {
         return textButton.getText();
     }
 
-    private boolean isTabActive(By tabLocator) {
-        return driver.findElement(tabLocator).getAttribute("class").contains("active");
+
+    //клик для перехода в раздел булки
+    @Step("Click on the bread section")
+    public MainPage clickBreadButton() {
+        this.driver.findElement(this.breadSection).click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.attributeContains(driver.findElement(breadSection), "class", "current"));
+        return this;
+
     }
-
-    @Step("Find And Click SauceLink on mainPage, check Sauce Element")
-    public boolean checkSauceLinkDisplayed() {
-        if (!isTabActive(ingredientSauceButton)) {
-            driver.findElement(ingredientSauceButton).click();
-        }
-        waitUntilVisible(checkSauceDisplayed);
-        return driver.findElement(checkSauceDisplayed).isDisplayed();
-    }
-
-    @Step("Find And Click StuffingLink on mainPage, check Stuffing Element")
-    public boolean checkStuffingLinkDisplayed() {
-        if (!isTabActive(ingredientFillingButton)) {
-            driver.findElement(ingredientFillingButton).click();
-        }
-        waitUntilVisible(checkFillingDisplayed);
-        return driver.findElement(checkFillingDisplayed).isDisplayed();
-    }
-
-    @Step("Find And Click BunsLink on mainPage, check Buns Element")
-    public boolean checkBunsLinkDisplayed() {
-        if (!isTabActive(ingredientFillingButton)) {
-            driver.findElement(ingredientFillingButton).click();
-        }
-        if (!isTabActive(ingredientBunsButton)) {
-            driver.findElement(ingredientBunsButton).click();
-        }
-        waitUntilVisible(checkBunsDisplayed);
-        return driver.findElement(checkBunsDisplayed).isDisplayed();
-    }
-
-
-    private WebElement waitUntilVisible(By locator) {
+    @Step("clicking on the button leads to the appearance of the bread section")
+    public boolean isCurrentClassBreadSection() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        clickBreadButton();
+        String classAttribute = driver.findElement(breadSection).getAttribute("class");
+        return classAttribute.contains("current");
+    }
+    //клик для перехода в раздел соусы
+    @Step("Click on the sauces section")
+    public MainPage clickSaucesSectionButton() {
+        this.driver.findElement(this.saucesSection).click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.attributeContains(driver.findElement(saucesSection), "class", "current"));
+        return this;
+    }
+
+
+    @Step("clicking on the button leads to the appearance of the sauce section")
+    public boolean isCurrentClassSauceSection() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        clickSaucesSectionButton();
+        String classSauceAttribute = driver.findElement(saucesSection).getAttribute("class");
+        return classSauceAttribute.contains("current");
+    }
+    //клик для перехода в раздел начинки
+    @Step("Click on the fillings section")
+    public MainPage clickFillingsSectionButton() {
+        this.driver.findElement(this.fillingSection).click();
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.attributeContains(driver.findElement(fillingSection), "class", "current"));
+        return this;
+    }
+    @Step("clicking on the button leads to the appearance of the filling section")
+    public boolean isCurrentClassFillingSection() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        clickFillingsSectionButton();
+        String classFillingAttribute = driver.findElement(fillingSection).getAttribute("class");
+        return classFillingAttribute.contains("current");
     }
 }

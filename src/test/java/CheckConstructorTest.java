@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+
+
 import static org.junit.Assert.assertTrue;
 
 public class CheckConstructorTest {
@@ -30,24 +32,31 @@ public class CheckConstructorTest {
         driver.quit();
     }
 
+    @DisplayName("clicking on the button leads to the appearance of the bun link")
     @Test
-    @DisplayName("check Constructor Sauce Link at MainPage")
-    public void checkSauceLink() {
+    public void testBunSectionButton() {
+        objMainPage = new MainPage(driver);
         objMainPage.openMainPage();
-        assertTrue("Error in section links-Sauce", objMainPage.checkSauceLinkDisplayed());
+        objMainPage.clickFillingsSectionButton();
+        assertTrue("Класс не содержит 'current'", objMainPage.isCurrentClassBreadSection());
     }
 
+    @DisplayName("clicking on the button leads to the appearance of the sauce section")
     @Test
-    @DisplayName("check Constructor Buns Link at MainPage")
-    public void checkBunsLink() {
+    public void testSauceSectionButton() {
+
+        objMainPage = new MainPage(driver);
         objMainPage.openMainPage();
-        assertTrue("Error in section Links-Buns", objMainPage.checkBunsLinkDisplayed());
+        assertTrue("Класс не содержит 'current'", objMainPage.isCurrentClassSauceSection());
     }
 
+    @DisplayName("clicking on the button leads to the appearance of the filling section")
     @Test
-    @DisplayName("check Constructor Stuffing Link at MainPage")
-    public void checkStuffingLink() {
+    public void testFillingSectionButton() {
+        objMainPage = new MainPage(driver);
         objMainPage.openMainPage();
-        assertTrue("Error in section Links-Stuffing", objMainPage.checkStuffingLinkDisplayed());
+        assertTrue("Класс не содержит 'current'", objMainPage.isCurrentClassFillingSection());
+
     }
+
 }
