@@ -1,6 +1,6 @@
-package org.example;
 
 import io.qameta.allure.junit4.DisplayName;
+import org.example.User;
 import org.example.pageobject.AuthorizationPage;
 import org.example.pageobject.MainPage;
 import org.example.pageobject.RegistrationPage;
