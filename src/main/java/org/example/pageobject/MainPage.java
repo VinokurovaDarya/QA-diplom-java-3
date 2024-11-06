@@ -59,33 +59,40 @@ public class MainPage {
         return textButton.getText();
     }
 
-    // метод того что при нажатии ссылки соусов меню автоматически скролится до соусов
+    private boolean isTabActive(By tabLocator) {
+        return driver.findElement(tabLocator).getAttribute("class").contains("active");
+    }
+
     @Step("Find And Click SauceLink on mainPage, check Sauce Element")
     public boolean checkSauceLinkDisplayed() {
-        driver.findElement(ingredientSauceButton).click();
+        if (!isTabActive(ingredientSauceButton)) {
+            driver.findElement(ingredientSauceButton).click();
+        }
         waitUntilVisible(checkSauceDisplayed);
         return driver.findElement(checkSauceDisplayed).isDisplayed();
-
     }
 
-    // метод того что при нажатии ссылки соусов меню автоматически скролится до начинки
     @Step("Find And Click StuffingLink on mainPage, check Stuffing Element")
     public boolean checkStuffingLinkDisplayed() {
-        driver.findElement(ingredientFillingButton).click();
+        if (!isTabActive(ingredientFillingButton)) {
+            driver.findElement(ingredientFillingButton).click();
+        }
         waitUntilVisible(checkFillingDisplayed);
         return driver.findElement(checkFillingDisplayed).isDisplayed();
-
     }
 
-    // метод того что при нажатии ссылки соусов меню автоматически скролится до булок
     @Step("Find And Click BunsLink on mainPage, check Buns Element")
     public boolean checkBunsLinkDisplayed() {
-        driver.findElement(ingredientFillingButton).click(); //сначала выберем начинку, булки и так стартовые
-        driver.findElement(ingredientBunsButton).click();
+        if (!isTabActive(ingredientFillingButton)) {
+            driver.findElement(ingredientFillingButton).click();
+        }
+        if (!isTabActive(ingredientBunsButton)) {
+            driver.findElement(ingredientBunsButton).click();
+        }
         waitUntilVisible(checkBunsDisplayed);
         return driver.findElement(checkBunsDisplayed).isDisplayed();
-
     }
+
 
     private WebElement waitUntilVisible(By locator) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
